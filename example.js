@@ -15,12 +15,10 @@ if (Meteor.isServer) {
         refreshToken: google.refreshToken
       });
 
-      var count = 0;
-      gmailClients[doc._id].onNewEmail('subject:hi', function (message) {
-        console.log(count, message.subject);
-        count += 1;
-        // console.log(message.snippet, message.to, message.from, message.subject);
-      });
+      console.log(gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
+        return m.snippet;
+      }));
+
     }
   });
 } else { /* is client */
