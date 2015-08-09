@@ -38,16 +38,32 @@ Meteor.users.find().observe({
       return matching_headers[0].value;
     }
 
-    var extract_email_body = function (m) {
-      try {
-        var email_body = m.payload.parts[0].body.data;
-        var words = CryptoJS.enc.Base64.parse(email_body);
-        var text_string = CryptoJS.enc.Utf8.stringify(words);
-        return text_string;
-      } catch (e) {
-        console.log('extract_email_body failed: ', e);
-        return null;
+        var parse_base_64 = function (str) {
+      var parse_dammit = function (word_array) {
+        try {
+          return text_string = CryptoJS.enc.Utf8.stringify(words_head);
+        } catch (e) {
+          return '';
+        }
       }
+      var ret = '';
+      try {
+        var words = CryptoJS.enc.Base64.parse(str);
+        for (var i=0; i<words.words.length; i++) {
+          var words_head = CryptoJS.lib.WordArray.create(words.words.slice(i, i+1));
+          ret += parse_dammit(words_head);
+        }
+      } catch (e) {
+        return ret;
+      }
+      return ret;
+    }
+
+    var extract_email_body = function (m) {
+      if (!m.payload.parts && m.payload.body) {
+        return parse_base_64(m.payload.body.data);
+      }
+      return parse_base_64(m.payload.parts[0].body.data);
     }
 
     gmailClients[doc._id].list("after:2015/08/05").map(function (m) {

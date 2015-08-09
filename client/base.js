@@ -6,6 +6,14 @@ Template.collection.helpers({
   }
 });
 
+Template.full.helpers({
+  email_data: function() {
+    var emailId = Router.current().params.id;
+    var resultEmail = Emails.find({ id: emailId });
+    return resultEmail;
+  }
+})
+
 Template.notification.helpers({
   tags: function() {
     return ["Github", "LinkedIn", "Facebook", "Twitter"]

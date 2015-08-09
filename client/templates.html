@@ -58,13 +58,18 @@
 </template>
 
 <template name="full">
-  <h2>It will show single email</h2>
-  <div class="time">Time: {{ time }}</div>
-  <div class="sender">From: {{ from }}</div>
-  <h4 class="subject">Subject: {{ subject }}</h4>
-  <div class="content">
-    <p>{{ content }}</p>
-  </div>  
+  {{#each email_data }}
+    <div class="full">
+      <h4 class="subject">{{ subject }}</h4>
+
+      <div class="sender">From: {{ from }}</div>
+      <div class="time"><em>{{ time }}</em></div>
+      
+      <div class="content">
+        {{ content }}
+      </div>      
+    </div>
+  {{/each}}
 </template>
 
 <template name="home">
