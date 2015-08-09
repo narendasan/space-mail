@@ -30,9 +30,9 @@
   <div class="notification">
     <h3>Notifications</h3>
     <ul class="notification-menu">
-      <li class="active"><a>Github <span class="badge">10</span></a></li>
-      <li><a>Linkedin</a></li>
-      <li><a>Facebook</a></li>
+      <li><a href="/notifications/github">Github <span class="badge">10</span></a></li>
+      <li><a href="/notifications/linkedin">Linkedin</a></li>
+      <li><a href="/notifications/facebook">Facebook</a></li>
     </ul>    
   </div>
 </template>
@@ -48,6 +48,8 @@
 </template>
 
 <template name="collection">
+  <h3>Showing notifications for: <em>{{ category }}</em></h3>
+  {{ hell }}
   {{#each email_data}}
     {{> single }}
   {{/each}}
@@ -55,9 +57,14 @@
 
 <template name="full">
   <h2>It will show single email</h2>
-  <div class="time">{{ time }}</div>
-  <h4><span class="sender">{{ from }}</span><span class="subject">{{ subject }}</span></h4>
+  <div class="time">Time: {{ time }}</div>
+  <div class="sender">From: {{ from }}</div>
+  <h4 class="subject">Subject: {{ subject }}</h4>
   <div class="content">
     <p>{{ content }}</p>
   </div>  
+</template>
+
+<template name="home">
+  <h2>Please click a category to show notifications.</h2>
 </template>

@@ -9,7 +9,12 @@ Router.configure({
 
 Router.route('/', function() {
   this.layout('container');
-  this.render('collection');
+  this.render('home');
+});
+
+Router.route('/notifications/:category', function() {
+  this.layout('container');
+  this.render('collection', { data: { category: this.params.category }});
 });
 
 Router.route('/full/:id', function() {
