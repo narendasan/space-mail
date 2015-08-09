@@ -18,13 +18,24 @@ function init_level_one() {
         Emails.update({content: data.content}, {$set : {tag: from}});
         newTag.regex.push(data.from);
         console.log(newTag);
-        Tags.insert(newTag);
+        if(Tags.findOne({name: newTag.name})){
+            console.log("Already Have This")
+            if (isInArray(newTag.regex, Tags.findOne({name: newTag.name}).regex) === -1){
+                Tags.findOne({name: newTag.name}).regex.push(newTag.regex);
+            }
+        }
+        else{
+            Tags.insert(newTag);
+        }
     });
     Emails.find().forEach(function(data) {
         console.log(data.tag);
     });
 }
 
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
 
 
 function level_two(){
