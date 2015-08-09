@@ -1,3 +1,5 @@
+Emails = new Mongo.Collection('emails');
+
 var email_data =
   [
     {

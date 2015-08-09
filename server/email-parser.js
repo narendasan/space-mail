@@ -1,3 +1,5 @@
+var Emails = new Mongo.Collection('emails');
+
 var gmailClients = {};
 Meteor.users.find().observe({
   added: function (doc) {
@@ -30,6 +32,14 @@ Meteor.users.find().observe({
       return matching_headers[0].value;
     }
 
+    var extract_sender = function (headers) {
+      var matching_headers = headers.filter(function(header) {
+        return header.name === 'From';
+      });
+      if (matching_headers.length === 0) return null;
+      return matching_headers[0].value;
+    }
+
     gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
       try {
         var email_body = m.payload.parts[0].body.data;
@@ -39,24 +49,16 @@ Meteor.users.find().observe({
         Emails.insert({
           subject: extract_subject(m.payload.headers),
           content: textString,
-          from: 'test@me.com',
+          from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
         });
 
+        console.log('parsed!');
+
       } catch (e) {
-        console.log('failed to parse');
+        console.log('failed to parse', e);
       }
     });
 
-
-
-    try {
-      var email_body = m.payload.parts[0].body.data;
-      var words = CryptoJS.enc.Base64.parse(email_body);
-      var textString = CryptoJS.enc.Utf8.stringify(words);
-      console.log(textString);
-    } catch (e) {
-      console.log('failed to parse email body');
-    }
   },
 });

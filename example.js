@@ -1,5 +1,4 @@
 // allusers = new Mongo.Collection('myUsers');
-Emails = new Mongo.Collection('emails');
 allconversations = new Mongo.Collection('conversations');
 
 
