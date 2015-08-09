@@ -5,12 +5,12 @@ allconversations = new Mongo.Collection('conversations');
 if (Meteor.isServer) {
 
   Meteor.startup(function() {
-    Emails.insert({
-      time: "June 21, 2015. 10:45am",
-      from: "Matthew Miner",
-      subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
-      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
-    });
+    // Emails.insert({
+    //   time: "June 21, 2015. 10:45am",
+    //   from: "Matthew Miner",
+    //   subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+    //   content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
+    // });
   });
 
   var gmailClients = {};
@@ -29,14 +29,25 @@ if (Meteor.isServer) {
         refreshToken: google.refreshToken
       });
 
+      var extract_subject = function (headers) {
+        var matching_headers = headers.filter(function(header) {
+          return header.name === 'Subject';
+        });
+        if (matching_headers.length === 0) return null;
+        return matching_headers[0].value;
+      }
+
       gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
         try {
+
           var email_body = m.payload.parts[0].body.data;
           var words = CryptoJS.enc.Base64.parse(email_body);
           var textString = CryptoJS.enc.Utf8.stringify(words);
 
+          console.log(Object.keys(m));
+
           Emails.insert({
-            subject: 'subject here',
+            subject: extract_subject(m.payload.headers),
             content: textString,
             from: 'test@me.com',
             time: "June 21, 2015. 10:45am",
@@ -47,16 +58,6 @@ if (Meteor.isServer) {
         }
       });
 
-
-
-      try {
-        var email_body = m.payload.parts[0].body.data;
-        var words = CryptoJS.enc.Base64.parse(email_body);
-        var textString = CryptoJS.enc.Utf8.stringify(words);
-        console.log(textString);
-      } catch (e) {
-        console.log('failed to parse email body');
-      }
     },
   });
 } else { /* is client */
