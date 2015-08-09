@@ -24,10 +24,16 @@
 
 <template name="single">
   <div class="single">
-    <div class="date">June 21, 2015. 10:45am</div>
-    <h4><span class="sender">Matthew Miner</span><span class="subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, molestias.</span></h4>
+    <div class="time">{{ time }}</div>
+    <h4><span class="sender">{{ from }}</span><span class="subject">{{ subject }}</span></h4>
     <div class="content">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta.</p>
+      <p>{{ content }}</p>
     </div>
   </div>
+</template>
+
+<template name="collection">
+  {{#each email_data}}
+    {{> single }}
+  {{/each}}
 </template>
