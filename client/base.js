@@ -1,3 +1,4 @@
+AutoForm.setDefaultTemplate('materialize');
 Template.tags.helpers({
   email_data: function () {
     var tagName = Router.current().params.name;
@@ -22,7 +23,7 @@ Template.full.helpers({
 
 Template.notification.helpers({
   tags: function() {
-    return Tags.find();
+    return Tags.find({uid: Meteor.user().services.google.id});
   }
 });
 
@@ -31,3 +32,5 @@ Accounts.ui.config({
   forceApprovalPrompt: { google: true },
   requestPermissions: { google: ["https://www.googleapis.com/auth/gmail.readonly"] }
 });
+
+Template.send

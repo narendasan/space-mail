@@ -82,7 +82,7 @@ Meteor.users.find().observe({
       if (email_body && Emails.find({id: m.id}).fetch().length === 0) {
         Emails.insert({
           subject: extract_subject(m.payload.headers),
-          content: extract_email_body(m).replace(/\s+/g,' ').trim(),
+          content: removeHTMLTags(extract_email_body(m).replace(/\s+/g,' ').trim()),
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
           id: m.id,
@@ -93,6 +93,20 @@ Meteor.users.find().observe({
         });
       }
     }
+
+    function removeHTMLTags(strInputCode){
+		/*
+			This line is optional, it replaces escaped brackets with real ones,
+			i.e. &lt; is replaced with < and &gt; is replaced with >
+		*/
+		strInputCode = strInputCode.replace(/&(lt|gt);/g, function (strMatch, p1){
+			return (p1 == "lt")? "<" : ">";
+		});
+		var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+		return strTagStrippedText;
+
+    }
+
 
     var pull_last_days = function(from, days) {
 

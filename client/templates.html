@@ -1,7 +1,7 @@
 <template name="container">
   <div class="container">
     <div class="row">
-      <div class="col-lg-4 col-md-4 sidebar">
+      <div class="col-lg-4 col-md-4 sidebar red lighten-2">
         {{> masthead }}
         {{> account }}
         {{> notification }}
@@ -9,9 +9,34 @@
       <div class="col-lg-8 col-md-8 main">
         {{> yield }}
       </div>
+      <div>
+          {{>button}}
+      </div>
     </div>
   </div>
 </template>
+
+<template name="sender">
+    <div class="sender">
+        {{#autoForm collection="Books" id="insertBookForm" type="insert"}}
+           <fieldset>
+             <legend>Compose</legend>
+             {{> afQuickField name='To'}}
+             {{> afQuickField name='CC'}}
+             {{> afQuickField name='BCC'}}
+             {{> afQuickField name='body' rows=24}}
+           </fieldset>
+           <button type="submit" class="btn btn-primary">Send</button>
+        {{/autoForm}}
+    </div>
+</template>
+
+<template name="button">
+    <div class="newMail" style="position: fixed;bottom: 30px;right: 20px;">
+        <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">message</i></a>
+    </div>
+</template>
+
 
 <template name="account">
   <div class="account">
@@ -27,13 +52,15 @@
 </template>
 
 <template name="notification">
-  <div class="notification">
-    <h3>Notifications</h3>
-    <ul class="notification-menu">
-      {{#each tags }}
-        <li><a href="/notifications/{{ this.name }}">{{ this.name }}</a></li>
-      {{/each}}
-    </ul>
+    <div class="nav-wrapper">
+      <div class="notification">
+        <h3>Conversations</h3>
+        <ul class="notification-menu right">
+          {{#each tags }}
+            <li><a href="/notifications/{{ this.name }}">{{ this.name }}</a></li>
+          {{/each}}
+        </ul>
+      </div>
   </div>
 </template>
 
@@ -48,7 +75,7 @@
 </template>
 
 <template name="tags">
-  <div class="{{ name }} tags">
+  <div class="{{ name }} tags ">
     <h3>Showing latest notifications from {{ name }}</h3>
 
     {{#each email_data}}

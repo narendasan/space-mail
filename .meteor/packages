@@ -18,3 +18,8 @@ jparker:crypto-base64
 iron:router
 meteorhacks:npm
 mquandalle:bower
+materialize:materialize
+aldeed:simple-schema
+aldeed:collection2
+aldeed:autoform
+useraccounts:materialize

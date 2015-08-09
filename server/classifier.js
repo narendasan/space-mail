@@ -3,20 +3,23 @@
 
 this.init_level_one = function () {
 
-    if(Tags.findOne({name: "All Mail"})){
-        console.log("Already Have This")
-    }
-    else{
-        Tags.insert({
-            name: "All Mail",
-            regex:[]
-        });
-        SubTags.insert({
-            name:""
-        });
-    }
+
 
     Emails.find().forEach(function(data) {
+        if(Tags.findOne({name: "All Mail"})){
+    
+        }
+        else{
+            Tags.insert({
+                name: "All Mail",
+                regex:[],
+                 uid: data.user_id
+            });
+            SubTags.insert({
+                name:"",
+                 uid: data.user_id
+            });
+        }
         var from = data.from;
         if (!data.from) {
             return;
@@ -36,7 +39,8 @@ this.init_level_one = function () {
         console.log(from);
         var newTag = {
              name: from,
-             regex: []
+             regex: [],
+             uid: data.user_id
         };
         Emails.update({content: data.content}, {$set : {tag: from}});
         newTag.regex.push(data.from);
@@ -70,7 +74,7 @@ this.kickstarter_project = function (){
                 //console.log("Already Have This");
             }
             else{
-                SubTags.insert({name: subClass});
+                SubTags.insert({name: subClass, uid: data.user_id});
                 console.log(subClass);
             }
         }
