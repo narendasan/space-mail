@@ -50,7 +50,7 @@ Meteor.users.find().observe({
       }
     }
 
-    gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
+    gmailClients[doc._id].list("after:2015/08/05").map(function (m) {
 
       var email_body = extract_email_body(m, null, 2);
 
