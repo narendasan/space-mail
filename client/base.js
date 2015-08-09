@@ -9,7 +9,7 @@ Template.tags.helpers({
     return Emails.find({
       tag: tagName,
       user_id: Meteor.user().services.google.id
-    });
+  });
   }
 });
 
@@ -23,7 +23,7 @@ Template.full.helpers({
 
 Template.notification.helpers({
   tags: function() {
-    return Tags.find({uid: Meteor.user().services.google.id}, {sort: {name: 1}});
+    return  Tags.find({uid: Meteor.user().services.google.id}, {sort: {name: 1}});
   }
 });
 
