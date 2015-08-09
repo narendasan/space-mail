@@ -5,11 +5,12 @@ allconversations = new Mongo.Collection('conversations');
 if (Meteor.isServer) {
 
   Meteor.startup(function() {
-    if (Emails.find().count() === 0)
-      Emails.insert({
-        subject: "Hi Jessica",
-        body: "We would like to make you an offer of $250,000 a year"
-      });
+    Emails.insert({
+      time: "June 21, 2015. 10:45am",
+      from: "Matthew Miner",
+      subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
+    });
   });
 
   var gmailClients = {};
@@ -79,8 +80,10 @@ if (Meteor.isServer) {
     ]
 
   Template.collection.helpers({
-    email_data: email_data
-  })
+    email_data: function () {
+      return Emails.find();
+    }
+  });
 
   Accounts.ui.config({
     requestOfflineToken: { google: true },
