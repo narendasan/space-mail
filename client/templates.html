@@ -49,7 +49,7 @@
         <h3>Conversations</h3>
         <ul class="notification-menu">
           {{#each tags }}
-            <li><a href="/notifications/{{ this.name }}">{{ this.name }}</a></li>
+            <li><a href="/notifications/{{ tag }}">{{ tag }} {{ count }}</a></li>
           {{/each}}
         </ul>
       </div>

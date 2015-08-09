@@ -1,15 +1,15 @@
 AutoForm.setDefaultTemplate('materialize');
 Template.tags.helpers({
   email_data: function () {
-    var tagName = Router.current().params.name;
-    console.log(Emails.findOne({
-      tag: tagName,
-      user_id: Meteor.user().services.google.id
-  }));
-    return Emails.find({
-      tag: tagName,
-      user_id: Meteor.user().services.google.id
-  });
+      var tagName = Router.current().params.name;
+      console.log(Emails.findOne({
+          tag: tagName,
+          user_id: Meteor.user().services.google.id
+      }));
+      return Emails.find({
+          tag: tagName,
+          user_id: Meteor.user().services.google.id
+      });
   }
 });
 
@@ -23,8 +23,28 @@ Template.full.helpers({
 
 Template.notification.helpers({
   tags: function() {
-    return  Tags.find({uid: Meteor.user().services.google.id}, {sort: {name: 1}});
-  }
+      tagsAndCounts = [{}];
+      Tags.find({uid: Meteor.user().services.google.id}, {sort: {name: 1}}).forEach(function (data) {
+          var count = Emails.find({
+              tag: data.name,
+              user_id: Meteor.user().services.google.id
+          }).count();
+          tagsAndCounts.push({tag:data.name,count:count});
+      });
+      return tagsAndCounts;
+    },
+    email_count: function () {
+        var tagName = Router.current().params.name;
+        console.log(Emails.findOne({
+            tag: tagName,
+            user_id: Meteor.user().services.google.id
+        }).size());
+        return Emails.find({
+            tag: tagName,
+            user_id: Meteor.user().services.google.id
+        });
+    }
+
 });
 
 Array.prototype.move = function (old_index, new_index) {
