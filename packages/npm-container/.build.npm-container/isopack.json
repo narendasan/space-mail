@@ -1,0 +1,24 @@
+{
+  "isopack-1": {
+    "name": "npm-container",
+    "summary": "Contains all your npm dependencies",
+    "version": "1.1.0+3b8c8b8837f8eb5d312c1c80c11173a649af2360",
+    "earliestCompatibleVersion": "1.0.0",
+    "isTest": false,
+    "builds": [
+      {
+        "arch": "os",
+        "path": "os.json"
+      },
+      {
+        "arch": "web.browser",
+        "path": "web.browser.json"
+      },
+      {
+        "arch": "web.cordova",
+        "path": "web.cordova.json"
+      }
+    ],
+    "plugins": []
+  }
+}
