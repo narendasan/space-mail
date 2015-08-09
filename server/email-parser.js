@@ -6,6 +6,8 @@ Meteor.users.find().observe({
 
     var google = doc.services.google;
 
+    console.log(doc.services.google.id);
+
     gmailClients[doc._id] = new GMail.Client({
       clientId: googleConf.clientId,
       clientSecret: googleConf.secret,
@@ -39,31 +41,39 @@ Meteor.users.find().observe({
     }
 
     var parse_base_64 = function (str) {
-      var parse_dammit = function (word_array) {
-        try {
-          return text_string = CryptoJS.enc.Utf8.stringify(words_head);
-        } catch (e) {
-          return '';
-        }
-      }
-      var ret = '';
       try {
-        var words = CryptoJS.enc.Base64.parse(str);
-        for (var i=0; i<words.words.length; i++) {
-          var words_head = CryptoJS.lib.WordArray.create(words.words.slice(i, i+1));
-          ret += parse_dammit(words_head);
-        }
+        return new Buffer(str, 'base64').toString('utf8');
       } catch (e) {
-        return ret;
+        console.log('failed to parse', str);
+        throw e;
       }
-      return ret;
+      // var parse_dammit = function (word_array) {
+      //   try {
+      //     return text_string = CryptoJS.enc.Utf8.stringify(words_head);
+      //   } catch (e) {
+      //     return '';
+      //   }
+      // }
+      // var ret = '';
+      // try {
+      //   var words = CryptoJS.enc.Base64.parse(str);
+      //   for (var i=0; i<words.words.length; i++) {
+      //     var words_head = CryptoJS.lib.WordArray.create(words.words.slice(i, i+1));
+      //     ret += parse_dammit(words_head);
+      //   }
+      // } catch (e) {
+      //   return ret;
+      // }
+      // return ret;
     }
 
     var extract_email_body = function (m) {
       if (!m.payload.parts && m.payload.body) {
         return parse_base_64(m.payload.body.data);
       }
-      return parse_base_64(m.payload.parts[0].body.data);
+      if (m.payload.parts[0].body.data) {
+        return parse_base_64(m.payload.parts[0].body.data);
+      }
     }
 
     var maybe_insert_message = function (m) {
@@ -76,7 +86,8 @@ Meteor.users.find().observe({
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
           id: m.id,
-          tag: "All Mail"
+          tag: "All Mail",
+          user_id: doc.services.google.id,
         });
       }
     }
