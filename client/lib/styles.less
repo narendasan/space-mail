@@ -39,8 +39,10 @@ body {
 }
 
 .sidebar {
-  float: none;
-  display: table-cell;
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+  width: 25%;
   background-color: @red-primary;
   color: @white;
   padding: 30px 30px;
@@ -73,7 +75,7 @@ body {
           &:hover {
             text-decoration: none;
             background: white;
-            //color: @red-primary;
+            color: @red-primary;
           }
         }
       }
@@ -82,9 +84,12 @@ body {
 }
 
 .main {
-  float: none;
-  padding: 30px;
-  display: table-cell;
+
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+  width: 75%;
+  left: 25%;
 
   .tags {
     h3 {
