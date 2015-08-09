@@ -40,17 +40,17 @@
 <template name="single">
   <a class="single" href="/full/{{ id }}">
     <div class="time">{{ time }}</div>
-    <h4><span class="sender">{{ from }}</span><span class="subject">{{ subject }}</span></h4>
+    <h4><span class="sender">{{ from }}</span><br><span class="subject">{{ subject }}</span></h4>
     <div class="content">
       <p>{{ content }}</p>
     </div>
   </a>
 </template>
 
-<template name="collection">
-  <div class="collection">
+<template name="tags">
+  <div class="{{ name }} tags">
     <h3>Showing latest notifications from {{ name }}</h3>
-    {{ hell }}
+
     {{#each email_data}}
       {{> single }}
     {{/each}}
@@ -59,16 +59,7 @@
 
 <template name="full">
   {{#each email_data }}
-    <div class="full">
-      <h4 class="subject">{{ subject }}</h4>
-
-      <div class="sender">From: {{ from }}</div>
-      <div class="time"><em>{{ time }}</em></div>
-
-      <div class="content">
-        {{ content }}
-      </div>
-    </div>
+    {{> single }}
   {{/each}}
 </template>
 

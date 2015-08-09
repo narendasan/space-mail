@@ -82,7 +82,7 @@ Meteor.users.find().observe({
       if (email_body && Emails.find({id: m.id}).fetch().length === 0) {
         Emails.insert({
           subject: extract_subject(m.payload.headers),
-          content: extract_email_body(m),
+          content: extract_email_body(m).replace(/\s+/g,' ').trim(),
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
           id: m.id,

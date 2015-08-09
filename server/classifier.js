@@ -1,18 +1,20 @@
 //prepositions = Meteor.npmRequire("prepositions");
-if(Tags.findOne({name: "All Mail"})){
-    console.log("Already Have This")
-}
-else{
-    Tags.insert({
-        name: "All Mail",
-        regex:[]
-    });
-    SubTags.insert({
-        name:""
-    });
-}
+
 
 this.init_level_one = function () {
+
+    if(Tags.findOne({name: "All Mail"})){
+        console.log("Already Have This")
+    }
+    else{
+        Tags.insert({
+            name: "All Mail",
+            regex:[]
+        });
+        SubTags.insert({
+            name:""
+        });
+    }
 
     Emails.find().forEach(function(data) {
         var from = data.from;
@@ -20,7 +22,17 @@ this.init_level_one = function () {
             return;
         }
         from = from.substring(0, from.indexOf('.'));
+        if(from.indexOf('<') !== -1){
+            from = from.substring(0, from.indexOf('<'));
+        }
+        if(from.indexOf('\"') !== -1){
+            from = from.substring(0, from.indexOf('\"'));
+        }
         from = from.substring(from.indexOf('@') + 1);
+        from = from.substring(0,from.length - 1);
+        if(from === ""){
+            from = "All Mail";
+        }
         console.log(from);
         var newTag = {
              name: from,

@@ -1,9 +1,13 @@
-Template.collection.helpers({
+Template.tags.helpers({
   email_data: function () {
     var tagName = Router.current().params.name;
+    console.log(Emails.findOne({
+      tag: tagName,
+      user_id: Meteor.user().services.google.id
+  }));
     return Emails.find({
       tag: tagName,
-      user_id: Meteor.user().services.google.id,
+      user_id: Meteor.user().services.google.id
     });
   }
 });
