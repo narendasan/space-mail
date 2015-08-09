@@ -13,3 +13,5 @@ accounts-ui
 nemo64:bootstrap
 less
 
+base64
+jparker:crypto-base64

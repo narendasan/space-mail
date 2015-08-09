@@ -15,17 +15,10 @@ if (Meteor.isServer) {
         refreshToken: google.refreshToken
       });
 
-      console.log('2015/08/08', gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
-        return m.snippet;
-      }));
-
-      console.log('2015/08/07', gmailClients[doc._id].list("after:2015/08/07 before:2015/08/08").map(function (m) {
-        return m.snippet;
-      }));
-
-      console.log('2015/08/06', gmailClients[doc._id].list("after:2015/08/06 before:2015/08/07").map(function (m) {
-        return m.snippet;
-      }));
+      var count = 0
+      gmailClients[doc._id].list("after:2015/08/07 subject:hithere").map(function(m) {
+        console.log(m.payload.parts[0].body.data);
+      });
 
     }
   });
