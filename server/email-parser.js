@@ -39,28 +39,31 @@ Meteor.users.find().observe({
     }
 
     var extract_email_body = function (m) {
-      var email_body = m.payload.parts[0].body.data;
-      var words = CryptoJS.enc.Base64.parse(email_body);
-      var text_string = CryptoJS.enc.Utf8.stringify(words);
+      try {
+        var email_body = m.payload.parts[0].body.data;
+        var words = CryptoJS.enc.Base64.parse(email_body);
+        var text_string = CryptoJS.enc.Utf8.stringify(words);
 
-      return text_string;
+        return text_string;
+      } catch (e) {
+        console.log('extract_email_body failed: ', e);
+        return null;
+      }
     }
 
     gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
-      try {
 
+      var email_body = extract_email_body(m);
+
+      if (email_body) {
         Emails.insert({
           subject: extract_subject(m.payload.headers),
           content: extract_email_body(m),
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
         });
-
-        console.log('parsed!');
-
-      } catch (e) {
-        console.log('failed to parse', e);
       }
+
     });
 
   },
