@@ -1,3 +1,18 @@
+<template name="container">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-4 sidebar">
+        {{> masthead }}
+        {{> account }}
+        {{> notification }}
+      </div>
+      <div class="col-lg-8 col-md-8 main">
+        {{> yield }}
+      </div>
+    </div>    
+  </div>
+</template>
+
 <template name="account">
   <div class="account">
     <p>Hello!</p>
@@ -7,7 +22,7 @@
 
 <template name="masthead">
   <div class="masthead">
-    <h2>Mail Filter App</h2>    
+    <h2><a href="/">Mail Filter App</a></h2>
   </div>
 </template>
 
@@ -23,17 +38,26 @@
 </template>
 
 <template name="single">
-  <div class="single">
+  <a class="single" href="/full/{{ id }}">
     <div class="time">{{ time }}</div>
     <h4><span class="sender">{{ from }}</span><span class="subject">{{ subject }}</span></h4>
     <div class="content">
       <p>{{ content }}</p>
     </div>
-  </div>
+  </a>
 </template>
 
 <template name="collection">
   {{#each email_data}}
     {{> single }}
   {{/each}}
+</template>
+
+<template name="full">
+  <h2>It will show single email</h2>
+  <div class="time">{{ time }}</div>
+  <h4><span class="sender">{{ from }}</span><span class="subject">{{ subject }}</span></h4>
+  <div class="content">
+    <p>{{ content }}</p>
+  </div>  
 </template>

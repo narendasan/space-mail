@@ -34,30 +34,35 @@ if (Meteor.isServer) {
   var email_data =
     [
       {
+        id: 1,
         time: "June 21, 2015. 10:45am",
         from: "Matthew Miner",
         subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
         content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
       },
       {
+        id: 2,
         time: "June 21, 2015. 10:45am",
         from: "Matthew Miner",
         subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
         content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
       },
       {
+        id: 3,
         time: "June 21, 2015. 10:45am",
         from: "Matthew Miner",
         subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
         content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
       },
       {
+        id: 4,
         time: "June 21, 2015. 10:45am",
         from: "Matthew Miner",
         subject: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
         content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, aspernatur, quos! Omnis et odio eos dolorum quibusdam quam, assumenda soluta."
       }
     ]
+
   Template.collection.helpers({
     email_data: email_data
   })
@@ -69,3 +74,16 @@ if (Meteor.isServer) {
   });
 }
 
+Router.configure({
+  layoutTemplate: 'container'
+});
+
+Router.route('/', function() {
+  this.layout('container');
+  this.render('collection');
+});
+
+Router.route('/full/:id', function() {
+  this.layout('container');
+  this.render('full', { id: this.params.id });
+});

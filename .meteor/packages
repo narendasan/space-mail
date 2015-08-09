@@ -15,3 +15,4 @@ less
 
 base64
 jparker:crypto-base64
+iron:router
