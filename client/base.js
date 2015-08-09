@@ -18,7 +18,7 @@ Template.notification.helpers({
   tags: function() {
     return Tags.find();
   }
-})
+});
 
 Accounts.ui.config({
   requestOfflineToken: { google: true },

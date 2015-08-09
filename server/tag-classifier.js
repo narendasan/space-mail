@@ -1,8 +1,17 @@
 //prepositions = Meteor.npmRequire("prepositions");
-Tags.insert({
-    name: "All Mail",
-    regex: []
-});
+
+if(Tags.findOne({name: "All Mail"})){
+    console.log("Already Have This")
+}
+else{
+    Tags.insert({
+        name: "All Mail",
+        regex:[]
+    });
+    SubTags.insert({
+        name:""
+    });
+}
 
 function init_level_one() {
 
@@ -35,6 +44,24 @@ function init_level_one() {
 
 function isInArray(value, array) {
   return array.indexOf(value) > -1;
+}
+
+
+function kickstarter_project(){
+    Emails.find().forEach(function(data) {
+        if((data.tag === "kickstarter") && (data.subject.indexOf("Project") !== -1)){
+            subClass = data.subject.substring(data.subject.indexOf(':') + 2);
+            Emails.update({content: data.content}, {$set : {subtag: subClass}});
+
+            if(SubTags.findOne({name: subClass})){
+                //console.log("Already Have This");
+            }
+            else{
+                SubTags.insert({name: subClass});
+                console.log(subClass);
+            }
+        }
+    });
 }
 
 
@@ -85,3 +112,4 @@ function level_two(){
 }
 
 init_level_one();
+kickstarter_project();

@@ -77,7 +77,8 @@ Meteor.users.find().observe({
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
           id: m.id,
-          tag: "All Mail"
+          tag: "All Mail",
+          subtag: ""
         });
       }
 
