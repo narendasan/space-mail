@@ -44,7 +44,7 @@
     "alert"                : false,
     "button"               : true,
     "collapse"             : false,
-    "scrollspy"            : false,
+    "scrollspy"            : true,
     "tab"                  : false,
     "transition"           : false,
 
