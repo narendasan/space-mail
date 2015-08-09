@@ -1,4 +1,17 @@
+// allusers = new Mongo.Collection('myUsers');
+Emails = new Mongo.Collection('emails');
+allconversations = new Mongo.Collection('conversations');
+
 if (Meteor.isServer) {
+
+  Meteor.startup(function() {
+    if (Emails.find().count() === 0)
+      Emails.insert({
+        subject: "Hi Jessica",
+        body: "We would like to make you an offer of $250,000 a year"
+      });
+  });
+
   var gmailClients = {};
   Meteor.users.find().observe({
     added: function (doc) {
@@ -7,16 +20,20 @@ if (Meteor.isServer) {
 
       var google = doc.services.google;
 
-      gmailClients[doc._id] = new GMail.Client({
-        clientId: googleConf.clientId,
-        clientSecret: googleConf.secret,
-        accessToken: google.accessToken,
-        expirationDate: google.expiresAt,
-        refreshToken: google.refreshToken
-      });
+      // gmailClients[doc._id] = new GMail.Client({
+      //   clientId: googleConf.clientId,
+      //   clientSecret: googleConf.secret,
+      //   accessToken: google.accessToken,
+      //   expirationDate: google.expiresAt,
+      //   refreshToken: google.refreshToken
+      // });
 
-      var count = 0
-      gmailClients[doc._id].list("after:2015/08/07").map(function(m) {
+      // (gmailClients[doc._id].list("from:*@linkedin.com").map(function (m) {
+      //   console.log(m)
+      //   return m.payload.headers;
+      // }));
+
+
 
         try {
           var email_body = m.payload.parts[0].body.data;
