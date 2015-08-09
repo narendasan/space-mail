@@ -1,5 +1,3 @@
-var Emails = new Mongo.Collection('emails');
-
 var gmailClients = {};
 Meteor.users.find().observe({
   added: function (doc) {
