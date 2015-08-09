@@ -1,7 +1,10 @@
 Template.collection.helpers({
   email_data: function () {
     var tagName = Router.current().params.name;
-    return Emails.find({ tag: tagName });
+    return Emails.find({
+      tag: tagName,
+      user_id: Meteor.user().services.google.id,
+    });
   }
 });
 
