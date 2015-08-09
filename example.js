@@ -2,6 +2,7 @@
 Emails = new Mongo.Collection('emails');
 allconversations = new Mongo.Collection('conversations');
 
+
 Router.configure({
   layoutTemplate: 'container'
 });
