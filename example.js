@@ -35,17 +35,15 @@ if (Meteor.isServer) {
 
 
 
-        try {
-          var email_body = m.payload.parts[0].body.data;
-          var words = CryptoJS.enc.Base64.parse(email_body);
-          var textString = CryptoJS.enc.Utf8.stringify(words);
-          console.log(textString);
-        } catch (e) {
-          console.log('failed to parse email body');
-        }
-
-      });
-    }
+      try {
+        var email_body = m.payload.parts[0].body.data;
+        var words = CryptoJS.enc.Base64.parse(email_body);
+        var textString = CryptoJS.enc.Utf8.stringify(words);
+        console.log(textString);
+      } catch (e) {
+        console.log('failed to parse email body');
+      }
+    },
   });
 } else { /* is client */
   var email_data =
