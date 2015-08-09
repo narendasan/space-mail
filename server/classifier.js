@@ -1,5 +1,4 @@
 //prepositions = Meteor.npmRequire("prepositions");
-
 if(Tags.findOne({name: "All Mail"})){
     console.log("Already Have This")
 }
@@ -13,10 +12,13 @@ else{
     });
 }
 
-function init_level_one() {
+this.init_level_one = function () {
 
     Emails.find().forEach(function(data) {
         var from = data.from;
+        if (!data.from) {
+            return;
+        }
         from = from.substring(0, from.indexOf('.'));
         from = from.substring(from.indexOf('@') + 1);
         console.log(from);
@@ -46,8 +48,7 @@ function isInArray(value, array) {
   return array.indexOf(value) > -1;
 }
 
-
-function kickstarter_project(){
+this.kickstarter_project = function (){
     Emails.find().forEach(function(data) {
         if((data.tag === "kickstarter") && (data.subject.indexOf("Project") !== -1)){
             subClass = data.subject.substring(data.subject.indexOf(':') + 2);
@@ -63,7 +64,6 @@ function kickstarter_project(){
         }
     });
 }
-
 
 function level_two(){
     var pool = [" "];
@@ -110,6 +110,3 @@ function level_two(){
         console.log("All Mail");
     }
 }
-
-init_level_one();
-kickstarter_project();
