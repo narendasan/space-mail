@@ -66,9 +66,8 @@ Meteor.users.find().observe({
       return parse_base_64(m.payload.parts[0].body.data);
     }
 
-    gmailClients[doc._id].list("after:2015/08/05").map(function (m) {
-
-      var email_body = extract_email_body(m, null, 2);
+    var maybe_insert_message = function (m) {
+      var email_body = extract_email_body(m);
 
       if (email_body && Emails.find({id: m.id}).fetch().length === 0) {
         Emails.insert({
@@ -80,8 +79,9 @@ Meteor.users.find().observe({
           tag: "All Mail"
         });
       }
+    }
 
-    });
+    gmailClients[doc._id].list("after:2015/08/05").forEach(maybe_insert_message);
 
   },
 });
