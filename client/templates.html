@@ -18,16 +18,8 @@
 
 <template name="sender">
     <div class="sender">
-        {{#autoForm collection="Books" id="insertBookForm" type="insert"}}
-           <fieldset>
-             <legend>Compose</legend>
-             {{> afQuickField name='To'}}
-             {{> afQuickField name='CC'}}
-             {{> afQuickField name='BCC'}}
-             {{> afQuickField name='body' rows=24}}
-           </fieldset>
-           <button type="submit" class="btn btn-primary">Send</button>
-        {{/autoForm}}
+        {{> quickForm collection="Collections.Outbound" id="insertOutboundForm" type="insert"}}
+
     </div>
 </template>
 
