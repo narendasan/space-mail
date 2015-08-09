@@ -16,8 +16,17 @@ if (Meteor.isServer) {
       });
 
       var count = 0
-      gmailClients[doc._id].list("after:2015/08/07 subject:hithere").map(function(m) {
-        console.log(m.payload.parts[0].body.data);
+      gmailClients[doc._id].list("after:2015/08/07").map(function(m) {
+
+        try {
+          var email_body = m.payload.parts[0].body.data;
+          var words = CryptoJS.enc.Base64.parse(email_body);
+          var textString = CryptoJS.enc.Utf8.stringify(words);
+          console.log(textString);
+        } catch (e) {
+          console.log('failed to parse email body');
+        }
+
       });
     }
   });
