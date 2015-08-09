@@ -8,6 +8,9 @@ function init_level_one() {
 
     Emails.find().forEach(function(data) {
         var from = data.from;
+        if (!data.from) {
+            return;
+        }
         from = from.substring(0, from.indexOf('.'));
         from = from.substring(from.indexOf('@') + 1);
         console.log(from);

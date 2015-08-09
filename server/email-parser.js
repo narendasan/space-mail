@@ -38,7 +38,7 @@ Meteor.users.find().observe({
       return matching_headers[0].value;
     }
 
-        var parse_base_64 = function (str) {
+    var parse_base_64 = function (str) {
       var parse_dammit = function (word_array) {
         try {
           return text_string = CryptoJS.enc.Utf8.stringify(words_head);
