@@ -39,8 +39,9 @@ body {
 }
 
 .sidebar {
-  float: none;
-  display: table-cell;
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
   background-color: @red-primary;
   color: @white;
   padding: 30px 30px;
@@ -82,9 +83,12 @@ body {
 }
 
 .main {
-  float: none;
-  padding: 30px;
-  display: table-cell;
+
+  position: absolute;
+  height: 100%;
+  overflow-y: scroll;
+  width: 66%;
+  left: 33%;
 
   .tags {
     h3 {
