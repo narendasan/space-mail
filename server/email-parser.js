@@ -14,6 +14,22 @@ Meteor.users.find().observe({
       refreshToken: google.refreshToken
     });
 
+    var extract_subject = function (headers) {
+      var matching_headers = headers.filter(function(header) {
+        return header.name === 'Subject';
+      });
+      if (matching_headers.length === 0) return null;
+      return matching_headers[0].value;
+    }
+
+    var extract_date = function (headers) {
+      var matching_headers = headers.filter(function(header) {
+        return header.name === 'Date';
+      });
+      if (matching_headers.length === 0) return null;
+      return matching_headers[0].value;
+    }
+
     gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
       try {
         var email_body = m.payload.parts[0].body.data;
@@ -21,10 +37,10 @@ Meteor.users.find().observe({
         var textString = CryptoJS.enc.Utf8.stringify(words);
 
         Emails.insert({
-          subject: 'subject here',
+          subject: extract_subject(m.payload.headers),
           content: textString,
           from: 'test@me.com',
-          time: "June 21, 2015. 10:45am",
+          time: extract_date(m.payload.headers),
         });
 
       } catch (e) {
