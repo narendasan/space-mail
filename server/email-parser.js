@@ -38,15 +38,20 @@ Meteor.users.find().observe({
       return matching_headers[0].value;
     }
 
+    var extract_email_body = function (m) {
+      var email_body = m.payload.parts[0].body.data;
+      var words = CryptoJS.enc.Base64.parse(email_body);
+      var text_string = CryptoJS.enc.Utf8.stringify(words);
+
+      return text_string;
+    }
+
     gmailClients[doc._id].list("after:2015/08/07").map(function (m) {
       try {
-        var email_body = m.payload.parts[0].body.data;
-        var words = CryptoJS.enc.Base64.parse(email_body);
-        var textString = CryptoJS.enc.Utf8.stringify(words);
 
         Emails.insert({
           subject: extract_subject(m.payload.headers),
-          content: textString,
+          content: extract_email_body(m),
           from: extract_sender(m.payload.headers),
           time: extract_date(m.payload.headers),
         });
