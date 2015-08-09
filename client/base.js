@@ -16,7 +16,7 @@ Template.full.helpers({
 
 Template.notification.helpers({
   tags: function() {
-    return ["Github", "LinkedIn", "Facebook", "Twitter"]
+    return Tags.find();
   }
 })
 

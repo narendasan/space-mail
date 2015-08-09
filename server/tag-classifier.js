@@ -1,7 +1,7 @@
 //prepositions = Meteor.npmRequire("prepositions");
 Tags.insert({
     name: "All Mail",
-    regex: {}
+    regex: []
 });
 
 function init_level_one() {
@@ -10,12 +10,14 @@ function init_level_one() {
         var from = data.from;
         from = from.substring(0, from.indexOf('.'));
         from = from.substring(from.indexOf('@') + 1);
-        //data.update( {$set: {tag: from}});
+        console.log(from);
         var newTag = {
              name: from,
-             regex: {}
+             regex: []
         };
+        Emails.update({content: data.content}, {$set : {tag: from}});
         newTag.regex.push(data.from);
+        console.log(newTag);
         Tags.insert(newTag);
     });
     Emails.find().forEach(function(data) {
@@ -70,3 +72,5 @@ function level_two(){
         console.log("All Mail");
     }
 }
+
+init_level_one();

@@ -9,14 +9,14 @@
       <div class="col-lg-8 col-md-8 main">
         {{> yield }}
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 
 <template name="account">
   <div class="account">
     <p>Hello!</p>
-    {{> loginButtons}}    
+    {{> loginButtons}}
   </div>
 </template>
 
@@ -31,9 +31,9 @@
     <h3>Notifications</h3>
     <ul class="notification-menu">
       {{#each tags }}
-        <li><a href="/notifications/{{ this }}">{{ this }}</a></li>
+        <li><a href="/notifications/{{ this.name }}">{{ this.name }}</a></li>
       {{/each}}
-    </ul>    
+    </ul>
   </div>
 </template>
 
@@ -53,7 +53,7 @@
     {{ hell }}
     {{#each email_data}}
       {{> single }}
-    {{/each}}    
+    {{/each}}
   </div>
 </template>
 
@@ -64,10 +64,10 @@
 
       <div class="sender">From: {{ from }}</div>
       <div class="time"><em>{{ time }}</em></div>
-      
+
       <div class="content">
         {{ content }}
-      </div>      
+      </div>
     </div>
   {{/each}}
 </template>
