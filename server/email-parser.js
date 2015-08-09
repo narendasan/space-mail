@@ -81,7 +81,26 @@ Meteor.users.find().observe({
       }
     }
 
-    gmailClients[doc._id].list("after:2015/08/05").forEach(maybe_insert_message);
+    var pull_last_days = function(from, days) {
+
+      console.log('pull_last_days', from, days);
+      if (days === 0) return;
+
+      var now = from.toISOString().slice(0, 10);
+      from.setDate(from.getDate() - 1);
+      var prev = from.toISOString().slice(0, 10);
+
+      gmailClients[doc._id].list("after:" + prev + " before:" + now).forEach(maybe_insert_message);
+      init_level_one();
+
+      Meteor.setTimeout(function() {
+        pull_last_days(from, days - 1);
+      }, 100);
+    }
+
+    pull_last_days(new Date(), 10);
+    // gmailClients[doc._id].list("after:2015/08/07").forEach(maybe_insert_message);
+
 
   },
 });
