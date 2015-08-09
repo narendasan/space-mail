@@ -38,7 +38,7 @@ Meteor.users.find().observe({
       return matching_headers[0].value;
     }
 
-        var parse_base_64 = function (str) {
+    var parse_base_64 = function (str) {
       var parse_dammit = function (word_array) {
         try {
           return text_string = CryptoJS.enc.Utf8.stringify(words_head);
@@ -66,9 +66,8 @@ Meteor.users.find().observe({
       return parse_base_64(m.payload.parts[0].body.data);
     }
 
-    gmailClients[doc._id].list("after:2015/08/05").map(function (m) {
-
-      var email_body = extract_email_body(m, null, 2);
+    var maybe_insert_message = function (m) {
+      var email_body = extract_email_body(m);
 
       if (email_body && Emails.find({id: m.id}).fetch().length === 0) {
         Emails.insert({
@@ -81,8 +80,28 @@ Meteor.users.find().observe({
           subtag: ""
         });
       }
+    }
 
-    });
+    var pull_last_days = function(from, days) {
+
+      console.log('pull_last_days', from, days);
+      if (days === 0) return;
+
+      var now = from.toISOString().slice(0, 10);
+      from.setDate(from.getDate() - 1);
+      var prev = from.toISOString().slice(0, 10);
+
+      gmailClients[doc._id].list("after:" + prev + " before:" + now).forEach(maybe_insert_message);
+      init_level_one();
+
+      Meteor.setTimeout(function() {
+        pull_last_days(from, days - 1);
+      }, 100);
+    }
+
+    pull_last_days(new Date(), 10);
+    // gmailClients[doc._id].list("after:2015/08/07").forEach(maybe_insert_message);
+
 
   },
 });

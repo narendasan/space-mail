@@ -2,7 +2,7 @@ Template.collection.helpers({
   email_data: function () {
     var tagName = Router.current().params.name;
     console.log(tagName);
-    return Emails.find();
+    return Emails.find({ tag: tagName });
   }
 });
 
